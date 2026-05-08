@@ -10,11 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@gravity-ui/icons": "github:gravity-ui/icons",
     "@heroui/react": "3.0.3",
     "@heroui/styles": "3.0.3",
+    "@reduxjs/toolkit": "^2.11.2",
+    "axios": "^1.15.2",
     "clsx": "2.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "6.23.0"
   },
   "devDependencies": {

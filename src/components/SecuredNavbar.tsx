@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button, Kbd, TextField, InputGroup } from "@heroui/react";
 import clsx from "clsx";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import {
@@ -14,11 +14,10 @@ import {
   SearchIcon,
   Logo,
 } from "@/components/icons";
-import { useSelector } from "react-redux";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isLogin = useSelector((state: any) => state.authslice.isLogin);
+
   const searchInput = (
     <TextField aria-label="Search" type="search">
       <InputGroup>
@@ -37,27 +36,17 @@ export const Navbar = () => {
   );
 
   return (
-    <nav className="">
-      <header className="mx-auto flex  items-center justify-between gap-4 px-3 ">
-        <div className="flex items-center gap-4 flex-col">
-          <div>
-            <a className="flex items-center gap-1">
-              <Logo />
-              <p
-                onClick={() => {
-                  console.log(isLogin);
-                }}
-                className="font-bold text-inherit"
-              >
-                ACME
-              </p>
-            </a>
-          </div>
-          <ul className="flex-col gap-4 ml-2">
-            {!isLogin &&
-              siteConfig.navItems.map((item) => (
-                <li key={item.href}>
-                  {/* <a
+    <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
+      <header className="mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-4 px-6">
+        <div className="flex items-center gap-4">
+          <a className="flex items-center gap-1" href="/">
+            <Logo />
+            <p className="font-bold text-inherit">ACME</p>
+          </a>
+          <ul className="hidden lg:flex gap-4 ml-2">
+            {siteConfig.navItems.map((item) => (
+              <li key={item.href}>
+                {/* <a
                   className={clsx(
                     "text-foreground hover:text-accent transition-colors",
                     "data-[active=true]:text-accent data-[active=true]:font-medium",
@@ -66,23 +55,9 @@ export const Navbar = () => {
                 > */}
                   <Link to={item.href}>{item.label}</Link>
                   {/* {item.label} */}
-                </li>
-              ))}
-            {isLogin &&
-              siteConfig.navMenuItems.map((item) => (
-                <li key={item.href}>
-                  {/* <a
-                  className={clsx(
-                    "text-foreground hover:text-accent transition-colors",
-                    "data-[active=true]:text-accent data-[active=true]:font-medium",
-                  )}
-                  href={item.href}
-                > */}
-                  <Link to={item.href}>{item.label}</Link>
-
-                  {/* {item.label} */}
-                </li>
-              ))}
+             
+              </li>
+            ))}
           </ul>
         </div>
 

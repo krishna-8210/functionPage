@@ -1,26 +1,22 @@
 import { Navbar } from "@/components/navbar";
+import { useState } from "react";
 
-export default function DefaultLayout({
-  children,pageTitle
+export default function SecuredLayout({
+  children,
 }: {
   children: React.ReactNode;
-  pageTitle:string
 }) {
 
+const isLogin=useState((e: any) => e.authslice.isLogin);
 
 
- 
   return (
-    <div className="relative flex  h-screen ">
-      <Navbar />
-      <main className="container mx-auto max-w-7xl  border flex-grow pt-2">
-        <div className="border-b px-3 pb-2">
-          {pageTitle}
-        </div>
-        <div className="pt-4 px-3">
-       {children}
-        </div>
- 
+    <div className="relative flex flex-col h-screen">
+<Navbar />
+      
+
+      <main className="container mx-auto max-w-7xl px-6 flex-grow pt-16">
+        {children}
       </main>
       {/* <footer className="w-full flex items-center justify-center py-3">
         <a
