@@ -13,7 +13,18 @@ import {
 } from "@heroui/react";
 import { parseFn, parseFunction } from "@/libs";
 import { Editor } from "@monaco-editor/react";
-
+import confetti from "canvas-confetti"
+import { time } from "console";
+import { FaCheckCircle } from "react-icons/fa";
+import { motion } from "framer-motion";
+ const handleClick = () => {
+  confetti({
+  particleCount: 400,
+  spread: 200,
+  time:3000,
+  origin: { y: 0.6 }
+});
+  }
 const ModalComp=({children,title,button_function}:{children:any,title:string,button_function:()=>void})=>{
 
     return     <Modal  >
@@ -95,6 +106,7 @@ setNotes(preValue.notes)
 }
 
   const saveFunction = () => {
+    const initial_data=localStorage.getItem('custom_functions');
     if (!name || !code) {
         alert("Please provide both a name and code for the function.");
         return;
@@ -126,6 +138,11 @@ setNotes(preValue.notes)
       setShowSuccess(true)
     setName("");
     setCode("");
+
+    if(!initial_data){
+        handleClick();
+        alert('Hurray, You create your first Function :)')
+    }
   };
     const editFunction = () => {
     if (!name || !code) {
@@ -189,10 +206,23 @@ useEffect(() => {
 <div>
   {/* Builder */}
   {showSuccess?
-  <div>
+  <div className="flex flex-col items-center justify-center">
+     <motion.div
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{
+    type: "spring",
+    stiffness: 200
+  }}
+>
+  <FaCheckCircle color="green" size={200} />
+</motion.div>
     {isEditMode?
-    <div>
-        <Button  onClick={()=>{
+    <div className="flex  flex-col items-center justify-center gap-2">
+       
+        <Button 
+        className={'w-full'}
+        onClick={()=>{
             preSet()
             setShowSuccess(false)
         }}  variant="secondary">Edit Function Again</Button>
@@ -201,7 +231,7 @@ useEffect(() => {
     <div>
     <Button
     onClick={()=>setShowSuccess(false)}
-    
+    className={'w-full'}
     variant="secondary">Create New Function</Button>
     </div>
     }
@@ -654,7 +684,7 @@ setSelectedProgram={setSelectedProgram}
     {consoleLogs.length === 0 ? (
       <div>No logs</div>
     ) : (
-      consoleLogs.map((log, index) => (
+      consoleLogs.map((log:any, index) => (
         <div
           key={index}
           className={
@@ -663,7 +693,7 @@ setSelectedProgram={setSelectedProgram}
               : "text-green-400"
           }
         >
-          [{log.type.toUpperCase()}] {log.message}
+          [{log?.type.toUpperCase()}] {log.message}
         </div>
       ))
     )}
@@ -685,7 +715,6 @@ setSelectedProgram={setSelectedProgram}
 </div>
 </div>
 </div>
-
 
 
 
