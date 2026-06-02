@@ -1,4 +1,4 @@
-export function parseFunction(fn) {
+export function parseFunction(fn:any) {
   const source = fn.toString().trim();
 
   console.log(source);
@@ -12,7 +12,7 @@ export function parseFunction(fn) {
       .replace(/^\(/, "")
       .replace(/\)$/, "")
       .split(",")
-      .map((p) => p.trim())
+      .map((p:any) => p.trim())
       .filter(Boolean);
 
     let body = bodyPart.trim();
@@ -38,7 +38,7 @@ export function parseFunction(fn) {
     params: paramsMatch
       ? paramsMatch[1]
           .split(",")
-          .map((p) => p.trim())
+          .map((p:any) => p.trim())
           .filter(Boolean)
       : [],
     body: bodyMatch
@@ -46,7 +46,7 @@ export function parseFunction(fn) {
       : "",
   };
 }
-export function parseFn(fn) {
+export function parseFn(fn:any) {
   const src = fn.toString().trim();
 
   // Detect arrow function
@@ -65,7 +65,7 @@ export function parseFn(fn) {
 
     args = cleanArgs
       .split(',')
-      .map(a => a.trim())
+      .map((a:any) => a.trim())
       .filter(Boolean);
 
     const bodyPart = src.slice(arrowIndex + 2).trim();
@@ -82,7 +82,7 @@ export function parseFn(fn) {
 
     args = rawArgs
       .split(',')
-      .map(a => a.trim())
+      .map((a:any) => a.trim())
       .filter(Boolean);
 
     const bodyStart = src.indexOf('{');

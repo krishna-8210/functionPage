@@ -5,23 +5,23 @@ import {
   Card,
   TextArea,
   Accordion,
-  Switch,
-  Label,
-  Description,
-  Drawer,
+//   Switch,
+//   Label,
+//   Description,
+//   Drawer,
   Modal,
 } from "@heroui/react";
-import { parseFn, parseFunction } from "@/libs";
+import { parseFn } from "@/libs";
 import { Editor } from "@monaco-editor/react";
 import confetti from "canvas-confetti"
-import { time } from "console";
+
 import { FaCheckCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
  const handleClick = () => {
   confetti({
   particleCount: 400,
   spread: 200,
-  time:3000,
+//   time:3000,
   origin: { y: 0.6 }
 });
   }
@@ -49,13 +49,7 @@ const ModalComp=({children,title,button_function}:{children:any,title:string,but
     </Modal>
 }
 
-// code mode
-const CodeModeComp=()=>{
-console.log('ok')
-    return <div>
-        k
-    </div>
-}
+
 
 const CreateComp = ({ 
     functions, 
@@ -329,7 +323,7 @@ function renderValue(value:any) {
   return JSON.stringify(value, null, 2);
 }
 export default function FormPage() {
-    const [consoleLogs, setConsoleLogs] = useState([]);
+    const [consoleLogs, setConsoleLogs] = useState<any[]>([]);
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [notes, setNotes] = useState("");
@@ -348,26 +342,26 @@ export default function FormPage() {
 
 
 
-const serveFunction2= (fn: any) => {
-  try {
-    // Rebuild a clean anonymous function from parsed parts
-    const argList = fn.functionArgs.join(', ');
-    const safeCode = `(function(${argList}) { ${fn.functionBody} })`;
+// const serveFunction2= (fn: any) => {
+//   try {
+//     // Rebuild a clean anonymous function from parsed parts
+//     const argList = fn.functionArgs.join(', ');
+//     const safeCode = `(function(${argList}) { ${fn.functionBody} })`;
 
-    const fnc = eval(safeCode);
+//     const fnc = eval(safeCode);
 
-    // Use the `args` state values, falling back to empty string
-    const callArgs = fn.functionArgs.map((_: any, i: number) => args[i] ?? '');
+//     // Use the `args` state values, falling back to empty string
+//     const callArgs = fn.functionArgs.map((_: any, i: number) => args[i] ?? '');
 
-    const result = fnc(...callArgs);
-    console.log('Result:', result);
-    setSelectedProgramResult(result);
-  } catch (err) {
-    alert('Error executing function. Please check the console for details.');
-    console.error('Function execution error:', err);
-  }
+//     const result = fnc(...callArgs);
+//     console.log('Result:', result);
+//     setSelectedProgramResult(result);
+//   } catch (err) {
+//     alert('Error executing function. Please check the console for details.');
+//     console.error('Function execution error:', err);
+//   }
 
-};
+// };
 
 const serveFunction = (fn:any) => {
   const logs = [];
@@ -408,13 +402,13 @@ const serveFunction = (fn:any) => {
     const fnc = eval(safeCode);
 
     const callArgs = fn.functionArgs.map(
-      (_, i) => args[i] ?? ""
+      (_:any, i:number) => args[i] ?? ""
     );
 
     const result = fnc(...callArgs);
 
     setSelectedProgramResult(result);
-  } catch (err) {
+  } catch (err:any) {
     logs.push({
       type: "error",
       message: err.stack || err.message
@@ -442,12 +436,7 @@ const deleteFunction = (id:string) => {
     setFunctions(updated);
   }
 
-const editHandler=()=>{
-    if (!selectedProgram) return;
-    setName(selectedProgram.name);
-    setCode(selectedProgram.functionBody);
-    setNotes(selectedProgram.notes);
-}
+
 
   useEffect(() => {
     if (selectedProgram) {
