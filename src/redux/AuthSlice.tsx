@@ -1,5 +1,5 @@
 
-import { tokenLib } from '@/libs/localStorageDb';
+// import { tokenLib } from '@/libs/localStorageDb';
 import { createSlice } from '@reduxjs/toolkit'
 
 
@@ -15,7 +15,7 @@ export const counterSlice = createSlice({
 
       },
       logout: (state,action) => {
-        tokenLib.removeToken();
+        // tokenLib.removeToken();
         state.isLogin=false;
       },
     },
