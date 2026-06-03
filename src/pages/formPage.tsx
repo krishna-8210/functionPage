@@ -157,9 +157,10 @@ setNotes(preValue.notes)
     if(!pre_list_json){
         return;
     }
-    if(!seletedIndex){
-        return;
-    }
+    console.log("seletedIndex :",seletedIndex)
+    if (seletedIndex === undefined || seletedIndex === null) {
+     return;
+   }
  const preList:any[]=JSON.parse(pre_list_json);
     const preItem=preList[seletedIndex]
      const item = {
@@ -180,7 +181,7 @@ setNotes(preValue.notes)
       "custom_functions",
       JSON.stringify(preList)
     );
-    setSelectedProgram(item)
+    setSelectedProgram?.(item)
     setFunctions(preList);
     
     setName("");
@@ -258,7 +259,7 @@ useEffect(() => {
       theme='vs-dark'
       defaultLanguage="javascript"
       defaultValue={code}
-      onChange={(event:any)=>setCode(event)}
+      onChange={(value: string | undefined) => setCode(value || "")}
       className=""
     />
 </div>
