@@ -1,4 +1,8 @@
+import { Route, Routes } from "react-router-dom";
 import FormPage from "./pages/formPage";
+import IntroPage from "./pages/IntroPage";
+import SnippetPage from "./pages/SnippetPage";
+import Layout2 from "./Layout2";
 
 
 
@@ -9,7 +13,16 @@ function App() {
 
   return (
     <>
-    <FormPage/>
+    <Routes >
+ 
+      <Route element={<Layout2 />}>
+        <Route path="/" element={<FormPage />} />
+        <Route path="/snippet" element={<SnippetPage />} />
+        <Route path="/about" element={<IntroPage />} />
+      </Route>
+ 
+    </Routes>
+  
       {/* <RouteCmp /> */}
     </>
   
