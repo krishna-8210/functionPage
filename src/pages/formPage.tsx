@@ -19,6 +19,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Layout from "@/Layout";
 import SideNav from "@/component/SideNav";
+import { localStorageLib_for_function } from "@/localStoragelib";
 const handleClick = () => {
   confetti({
     particleCount: 400,
@@ -103,7 +104,7 @@ const CreateComp = ({
   };
 
   const saveFunction = () => {
-    const initial_data = localStorage.getItem("custom_functions");
+    const initial_data = localStorageLib_for_function.get();
     if (!name || !code) {
       alert("Please provide both a name and code for the function.");
       return;
@@ -125,7 +126,7 @@ const CreateComp = ({
 
     const updated = [...functions, item];
 
-    localStorage.setItem("custom_functions", JSON.stringify(updated));
+    localStorageLib_for_function.set(JSON.stringify(updated));
 
     setFunctions(updated);
     setShowSuccess(true);
@@ -149,7 +150,7 @@ const CreateComp = ({
 
     // update part
     const pre_list_json: string | null =
-      localStorage.getItem("custom_functions");
+      localStorageLib_for_function.get()
     if (!pre_list_json) {
       return;
     }
@@ -173,7 +174,7 @@ const CreateComp = ({
 
     // const updated = [...functions, item];
 
-    localStorage.setItem("custom_functions", JSON.stringify(preList));
+    localStorageLib_for_function.set(JSON.stringify(preList));
     setSelectedProgram?.(item);
     setFunctions(preList);
 
@@ -308,7 +309,8 @@ function renderValue(value: any) {
 
   return JSON.stringify(value, null, 2);
 }
-export default function FormPage({setPage}:{setPage:any}) {
+
+export default function FormPage({setPage,page}:{setPage:any,page:string}) {
   const [consoleLogs, setConsoleLogs] = useState<any[]>([]);
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
@@ -319,7 +321,7 @@ export default function FormPage({setPage}:{setPage:any}) {
   const [selectedProgram, setSelectedProgram] = useState<any>(null);
   const [selectedProgramResult, setSelectedProgramResult] = useState<any>(null);
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("custom_functions") || "[]");
+    const saved = JSON.parse(localStorageLib_for_function.get()|| "[]");
 
     setFunctions(saved);
   }, []);
@@ -347,7 +349,7 @@ export default function FormPage({setPage}:{setPage:any}) {
 
   const serveFunction = (fn: any) => {
     const logs = [];
-
+    
     const originalLog = console.log;
     const originalError = console.error;
 
@@ -422,6 +424,7 @@ export default function FormPage({setPage}:{setPage:any}) {
   return (
     <Layout
     setPage={setPage}
+    page={page}
       actions={[
         <CreateComp
           isEditMode={false}
@@ -522,9 +525,14 @@ export default function FormPage({setPage}:{setPage:any}) {
                                   <div></div>
                                 </div>
                                 <div>
-                                  <Card variant="secondary">
-                                    {selectedProgram.code}
-                                  </Card>
+
+                                 <TextArea
+                                 className={'w-full h-42 text-gray-500'}
+                                 readOnly
+                                 value={selectedProgram.code}
+                                 />
+                                 
+                                
                                 </div>
                                 {/* <pre className="overflow-auto rounded-xl bg-default-100 p-4 text-sm font-mono">
             {selectedProgram.code}
@@ -606,9 +614,10 @@ export default function FormPage({setPage}:{setPage:any}) {
           </div>
           {selectedProgram&&<div className="border w-1/3 rounded-3xl p-2 ">
             {/* <pre>{renderValue(selectedProgramResult)}</pre> */}
-            <div className="flex flex-col justify-between h-full">
+            <div className="flex flex-col justify-between h-full overflow-y-auto">
               <div>
                 <div className="font-bold mb-2">Output</div>
+                
                 <pre className="mb-4">{renderValue(selectedProgramResult)}</pre>
               </div>
 

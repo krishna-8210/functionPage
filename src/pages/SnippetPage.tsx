@@ -326,7 +326,7 @@ const SnippetItemForm = ({
   );
 };
 
-export default function SnippetPage({setPage}:{setPage:any}) {
+export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
   const [snippetList, setSnippetList] = useState<SnippetGroup[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number>();
   const [copiedSnippetId, setCopiedSnippetId] = useState<string | null>(null);
@@ -397,6 +397,7 @@ export default function SnippetPage({setPage}:{setPage:any}) {
 
   return (
     <Layout
+    page={page}
     setPage={setPage}
       actions={[
         <CreateSnippetGroup key="create-group" setSnippetList={setSnippetList} />,

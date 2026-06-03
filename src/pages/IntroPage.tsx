@@ -38,9 +38,9 @@ const storageRows = [
   },
 ];
 
-export default function IntroPage({setPage}:{setPage:any}) {
+export default function IntroPage({setPage,page}:{setPage:any,page:string}) {
   return (
-    <Layout setPage={setPage} actions={[]}>
+    <Layout page={page} setPage={setPage} actions={[]}>
       <div className="h-full overflow-auto p-4 md:p-4">
         <div className="mx-auto flex max-w-6xl flex-col gap-6">
           <section className="rounded-3xl border p-6 md:p-8">

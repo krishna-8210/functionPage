@@ -1,5 +1,6 @@
 
 import FormPage from "./pages/formPage";
+import FunctionLib from "./pages/FunctionLib";
 import IntroPage from "./pages/IntroPage";
 import SnippetPage from "./pages/SnippetPage";
 
@@ -17,11 +18,13 @@ function App() {
         <Route path="/snippet" element={<SnippetPage />} />
         <Route path="/about" element={<IntroPage />} />
       </Route>
+ selectedPage={selectedPage}
  
     </Routes> */}
-      {selectedPage == "home" && <FormPage setPage={setSelectedPage} />}
-      {selectedPage == "snippet" && <SnippetPage setPage={setSelectedPage}/>}
-      {selectedPage == "about" && <IntroPage setPage={setSelectedPage}/>}
+      {selectedPage == "functionLib" && <FunctionLib setPage={setSelectedPage}  page={selectedPage}/>}
+      {selectedPage == "home" && <FormPage setPage={setSelectedPage}  page={selectedPage}/>}
+      {selectedPage == "snippet" && <SnippetPage setPage={setSelectedPage}  page={selectedPage}/>}
+      {selectedPage == "about" && <IntroPage setPage={setSelectedPage}  page={selectedPage}/>}
 
     </>
 
