@@ -14,7 +14,7 @@ function SideNav({lists,clickAction}:{lists:any[],clickAction:any}) {
                   >
                     <div className="flex justify-between  items-center">
                       <h3
-                        className={`hover:text-blue-500 p-1   px-2 ${selectedindex == index && "text-blue-500  w-full rounded-xl "} transition `}
+                        className={`hover:text-blue-500 p-1 capitalize  px-2 ${selectedindex == index && "text-blue-500  w-full rounded-xl "} transition `}
                       >
                         {item.name}
                       </h3>

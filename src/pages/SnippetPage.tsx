@@ -326,7 +326,7 @@ const SnippetItemForm = ({
   );
 };
 
-export default function SnippetPage() {
+export default function SnippetPage({setPage}:{setPage:any}) {
   const [snippetList, setSnippetList] = useState<SnippetGroup[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number>();
   const [copiedSnippetId, setCopiedSnippetId] = useState<string | null>(null);
@@ -397,6 +397,7 @@ export default function SnippetPage() {
 
   return (
     <Layout
+    setPage={setPage}
       actions={[
         <CreateSnippetGroup key="create-group" setSnippetList={setSnippetList} />,
       ]}
@@ -404,7 +405,7 @@ export default function SnippetPage() {
       <div className="flex flex-col gap-2 h-[100%]">
         <div className="flex gap-2 h-full">
           <div className="flex gap-2 rounded-xl w-full">
-            <div className="border h-full rounded-xl p-2 w-48 shrink-0">
+            <div className="border-r h-full p-2 w-48 shrink-0">
               {snippetList.length === 0 ? (
                 <div className="text-sm text-default-500 p-2">
                   No groups yet.
@@ -416,9 +417,9 @@ export default function SnippetPage() {
                     onClick={() => setSelectedIndex(index)}
                     className="space-y-3 cursor-pointer"
                   >
-                    <div className="flex justify-between items-center gap-2 py-1">
+                    <div className="flex justify-between items-center  gap-2 py-1">
                       <h3
-                        className={`hover:text-blue-500 transition truncate ${
+                        className={`capitalize hover:text-blue-500 transition truncate ${
                           selectedIndex === index ? "text-blue-500" : ""
                         }`}
                       >

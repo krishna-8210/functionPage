@@ -308,7 +308,7 @@ function renderValue(value: any) {
 
   return JSON.stringify(value, null, 2);
 }
-export default function FormPage() {
+export default function FormPage({setPage}:{setPage:any}) {
   const [consoleLogs, setConsoleLogs] = useState<any[]>([]);
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
@@ -421,6 +421,7 @@ export default function FormPage() {
   }, [selectedProgram]);
   return (
     <Layout
+    setPage={setPage}
       actions={[
         <CreateComp
           isEditMode={false}

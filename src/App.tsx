@@ -1,31 +1,30 @@
-import { Route, Routes } from "react-router-dom";
+
 import FormPage from "./pages/formPage";
 import IntroPage from "./pages/IntroPage";
 import SnippetPage from "./pages/SnippetPage";
-import Layout2 from "./Layout2";
 
-
+import { useState } from "react";
 
 function App() {
-
-
-
+  const [selectedPage, setSelectedPage] = useState("home");
 
   return (
     <>
-    <Routes >
+      {/* <Routes >
  
       <Route element={<Layout2 />}>
-        <Route path="/" element={<FormPage />} />
+        <Route path="/" element={} />
         <Route path="/snippet" element={<SnippetPage />} />
         <Route path="/about" element={<IntroPage />} />
       </Route>
  
-    </Routes>
-  
-      {/* <RouteCmp /> */}
+    </Routes> */}
+      {selectedPage == "home" && <FormPage setPage={setSelectedPage} />}
+      {selectedPage == "snippet" && <SnippetPage setPage={setSelectedPage}/>}
+      {selectedPage == "about" && <IntroPage setPage={setSelectedPage}/>}
+
     </>
-  
+
     // <Routes>
     //   <Route element={<LoginSignupForm type={'login'} />} path="/" />
     //   <Route element={<LoginSignupForm type={'signup'} />} path="/signup" />
@@ -33,7 +32,6 @@ function App() {
     //   <Route element={<BlogPage />} path="/blog" />
     //   <Route element={<AboutPage />} path="/about" />
     // </Routes>
-    
   );
 }
 
