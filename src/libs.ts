@@ -92,3 +92,70 @@ export function parseFn(fn:any) {
 
   return { args, body };
 }
+import { parse } from "acorn";
+
+export function getFunctionParts(code:string) {
+  const ast = parse(code, {
+    ecmaVersion: "latest"
+  });
+
+  const node = ast.body[0];
+
+  let fn:any;
+
+  if (node.type === "FunctionDeclaration") {
+    fn = node;
+  } else if (
+    node.type === "VariableDeclaration" &&
+    node.declarations[0].init
+  ) {
+    fn = node.declarations[0].init;
+  } else {
+    throw new Error("Unsupported function type");
+  }
+
+  const params = fn.params.map((param:any) =>
+    code.slice(param.start, param.end)
+  );
+
+  const body = code.slice(
+    fn.body.start + 1,
+    fn.body.end - 1
+  );
+
+  return {
+    params,
+    body
+  };
+}
+
+export function splitFunction(code:string) {
+  const startParen = code.indexOf("(");
+  const endParen = code.indexOf(")", startParen);
+
+  const params = code
+    .slice(startParen + 1, endParen)
+    .split(",")
+    .map(v => v.trim())
+    .filter(Boolean);
+
+  const bodyStart = code.indexOf("{", endParen);
+
+  let depth = 0;
+  let bodyEnd = -1;
+
+  for (let i = bodyStart; i < code.length; i++) {
+    if (code[i] === "{") depth++;
+    if (code[i] === "}") depth--;
+
+    if (depth === 0) {
+      bodyEnd = i;
+      break;
+    }
+  }
+
+  return {
+    params,
+    body: code.slice(bodyStart + 1, bodyEnd)
+  };
+}

@@ -1,5 +1,6 @@
 export const liblist = [
   {
+    isAllGood: "true",
     id: "fn_remove_duplicate_lines",
     tags: ["developer", "text", "cleanup"],
     name: "Remove Duplicate Lines",
@@ -13,13 +14,113 @@ export const liblist = [
       },
     ],
     functionArgs: ["text"],
-    functionBody: 'return [...new Set(text.split("\\\\n"))].join("\\\\n");',
+    functionBody: 'return [...new Set(text.split("\\n"))].join("\\n");',
     inputType: [],
     outputType: [],
-    code: function removeDuplicateLines(text: string) {
+    code: `function removeDuplicateLines(text: string) {
       return [...new Set(text.split("\\n"))].join("\\n");
-    },
+    }`,
   },
+  {
+    isAllGood: "true",
+    id: "fn_calculate_interest",
+    tags: ["developer", "text", "cleanup"],
+    name: "Calculate Interest",
+    details: "It calculate interest",
+    whyUse: "Its save time and error proof",
+    saveTime: "10-20 minutes of calculation",
+    useCases: [
+      {
+        input: `
+        amount->100000,
+  annualRate->12,
+  startDate->"2025-01-01",
+  endDate->"2025-07-01"
+        `,
+        output: `
+        {
+  "principalAmount": "20000   ",
+  "interestRate": "36  ",
+  "startDate": " 05-02-2025 ",
+  "endDate": "09-09-2025    ",
+  "totalDays": "130",
+  "totalMonths": "4.33",
+  "dailyInterest": "19.73",
+  "monthlyInterest": 600,
+  "totalInterest": "2564.38",
+  "totalAmount": "22564.38"
+}
+        `,
+      },
+    ],
+    functionArgs: ["amount", "annualRate", "startDate", "endDate"],
+    functionBody: `
+     const start = new Date(startDate);
+  const end = new Date(endDate);
+  
+  const diffTime = end.getTime() - start.getTime();
+  const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+console.log(diffTime,totalDays)
+
+  const totalMonths = totalDays / 30;
+
+  const yearlyInterest = (amount * annualRate) / 100;
+  const monthlyInterest = yearlyInterest / 12;
+  const dailyInterest = yearlyInterest / 365;
+
+  const totalInterest = dailyInterest * totalDays;
+  const totalAmount = Number(amount) + Number(totalInterest);
+
+  return {
+    principalAmount: amount,
+    interestRate: annualRate,
+    startDate,
+    endDate,
+    totalDays: Number(totalDays).toFixed(0),
+    totalMonths: Number(totalMonths).toFixed(2),
+    dailyInterest: Number(dailyInterest).toFixed(2),
+    monthlyInterest: Number(monthlyInterest.toFixed(2)),
+    totalInterest: Number(totalInterest).toFixed(2),
+    totalAmount: Number(totalAmount).toFixed(2)
+  };
+    
+    `,
+    inputType: [],
+    outputType: [],
+    code: ` function calculateSimpleInterest(amount, annualRate, startDate, endDate) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  
+  const diffTime = end.getTime() - start.getTime();
+  const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+console.log(diffTime,totalDays)
+
+  const totalMonths = totalDays / 30;
+
+  const yearlyInterest = (amount * annualRate) / 100;
+  const monthlyInterest = yearlyInterest / 12;
+  const dailyInterest = yearlyInterest / 365;
+
+  const totalInterest = dailyInterest * totalDays;
+  const totalAmount = Number(amount) + Number(totalInterest);
+
+  return {
+    principalAmount: amount,
+    interestRate: annualRate,
+    startDate,
+    endDate,
+    totalDays: Number(totalDays).toFixed(0),
+    totalMonths: Number(totalMonths).toFixed(2),
+    dailyInterest: Number(dailyInterest).toFixed(2),
+    monthlyInterest: Number(monthlyInterest.toFixed(2)),
+    totalInterest: Number(totalInterest).toFixed(2),
+    totalAmount: Number(totalAmount).toFixed(2)
+  };
+
+}
+    `,
+  },
+
   {
     id: "fn_csv_to_json",
     tags: ["developer", "csv", "json", "data"],
@@ -38,8 +139,8 @@ export const liblist = [
         ],
       },
     ],
-    code: function csvToJson(csv: string) {
-      const rows = csv.trim().split("\\n");
+    code: `function csvToJson(csv: string) {
+      const rows = csv.trim().split("\n");
       const headers = rows[0].split(",");
       return rows.slice(1).map((row) => {
         const values = row.split(",");
@@ -48,10 +149,10 @@ export const liblist = [
           return obj;
         }, {});
       });
-    },
+    }`,
     functionArgs: ["csv"],
     functionBody:
-      'const rows = csv.trim().split("\\\\n");\n      const headers = rows[0].split(",");\n      return rows.slice(1).map((row) => {\n        const values = row.split(",");\n        return headers.reduce((obj, h, i) => {\n          obj[h.trim()] = values[i]?.trim();\n          return obj;\n        }, {});\n      });',
+      'const rows = csv.trim().split("\\n");\n      const headers = rows[0].split(",");\n      return rows.slice(1).map((row) => {\n        const values = row.split(",");\n        return headers.reduce((obj, h, i) => {\n          obj[h.trim()] = values[i]?.trim();\n          return obj;\n        }, {});\n      });',
     inputType: [],
     outputType: [],
   },
@@ -76,13 +177,13 @@ export const liblist = [
       'const [header, payload] = token.split(".");\n      return {\n        header: JSON.parse(atob(header)),\n        payload: JSON.parse(atob(payload))\n      };',
     inputType: [],
     outputType: [],
-    code: function jwtDecoder(token: string) {
+    code: `function jwtDecoder(token: string) {
       const [header, payload] = token.split(".");
       return {
         header: JSON.parse(atob(header)),
         payload: JSON.parse(atob(payload)),
       };
-    },
+    }`,
   },
   {
     id: "fn_json_formatter",
@@ -102,9 +203,9 @@ export const liblist = [
     functionBody: "return JSON.stringify(JSON.parse(jsonString), null, 2);",
     inputType: [],
     outputType: [],
-    code: function jsonFormatter(jsonString: string) {
+    code: `function jsonFormatter(jsonString: string) {
       return JSON.stringify(JSON.parse(jsonString), null, 2);
-    },
+    }`,
   },
   {
     id: "6ab07d0d-9b48-4ffa-83aa-77fc23ed44c1",
@@ -236,107 +337,108 @@ export const liblist = [
         },
       },
     ],
-    code: (bankCsv: string, booksCsv: string) => {
-      function csvToJson(csv: string) {
-        const lines = csv.trim().split("\n").filter(Boolean);
+    code: `(bankCsv, booksCsv) => {
+  function csvToJson(csv) {
+    const lines = csv.trim().split("\n").filter(Boolean);
 
-        const headers = lines[0].split(",").map((h) => h.trim());
+    const headers = lines[0].split(",").map((h) => h.trim());
 
-        return lines.slice(1).map((line) => {
-          const values = line.split(",");
+    return lines.slice(1).map((line) => {
+      const values = line.split(",");
 
-          return headers.reduce((obj: any, header: any, index: any) => {
-            obj[header] = values[index]?.trim() || "";
-            return obj;
-          }, {});
-        });
-      }
+      return headers.reduce((obj, header, index) => {
+        obj[header] = values[index]?.trim() || "";
+        return obj;
+      }, {});
+    });
+  }
 
-      function normalizeAmount(amount: number) {
-        return Number(String(amount).replace(/,/g, "").trim());
-      }
+  function normalizeAmount(amount) {
+    return Number(String(amount).replace(/,/g, "").trim());
+  }
 
-      const bank = csvToJson(bankCsv);
-      const books = csvToJson(booksCsv);
+  const bank = csvToJson(bankCsv);
+  const books = csvToJson(booksCsv);
 
-      const matched: any[] = [];
-      const missingInBooks: any[] = [];
-      const missingInBank: any[] = [];
-      const amountMismatch: any[] = [];
+  const matched = [];
+  const missingInBooks = [];
+  const missingInBank = [];
+  const amountMismatch = [];
 
-      const bookMap = new Map();
+  const bookMap = new Map();
 
-      books.forEach((bookTxn) => {
-        const ref = bookTxn.Reference?.trim();
+  books.forEach((bookTxn) => {
+    const ref = bookTxn.Reference?.trim();
 
-        if (!ref) return;
+    if (!ref) return;
 
-        bookMap.set(ref, bookTxn);
+    bookMap.set(ref, bookTxn);
+  });
+
+  bank.forEach((bankTxn) => {
+    const ref = bankTxn.Reference?.trim();
+
+    const bookTxn = bookMap.get(ref);
+
+    if (!bookTxn) {
+      missingInBooks.push(bankTxn);
+      return;
+    }
+
+    const bankAmount = normalizeAmount(bankTxn.Amount);
+    const bookAmount = normalizeAmount(bookTxn.Amount);
+
+    if (bankAmount !== bookAmount) {
+      amountMismatch.push({
+        reference: ref,
+        bankAmount,
+        bookAmount,
+        difference: bankAmount - bookAmount,
+        bankRecord: bankTxn,
+        bookRecord: bookTxn,
       });
 
-      bank.forEach((bankTxn) => {
-        const ref = bankTxn.Reference?.trim();
+      bookMap.delete(ref);
+      return;
+    }
 
-        const bookTxn = bookMap.get(ref);
+    matched.push({
+      reference: ref,
+      amount: bankAmount,
+      bankRecord: bankTxn,
+      bookRecord: bookTxn,
+    });
 
-        if (!bookTxn) {
-          missingInBooks.push(bankTxn);
-          return;
-        }
+    bookMap.delete(ref);
+  });
 
-        const bankAmount = normalizeAmount(bankTxn.Amount);
+  missingInBank.push(...bookMap.values());
 
-        const bookAmount = normalizeAmount(bookTxn.Amount);
+  const reconciliationRate =
+    bank.length === 0
+      ? 0
+      : Number(((matched.length / bank.length) * 100).toFixed(2));
 
-        if (bankAmount !== bookAmount) {
-          amountMismatch.push({
-            reference: ref,
-            bankAmount,
-            bookAmount,
-            difference: bankAmount - bookAmount,
-            bankRecord: bankTxn,
-            bookRecord: bookTxn,
-          });
-
-          bookMap.delete(ref);
-
-          return;
-        }
-
-        matched.push({
-          reference: ref,
-          amount: bankAmount,
-          bankRecord: bankTxn,
-          bookRecord: bookTxn,
-        });
-
-        bookMap.delete(ref);
-      });
-
-      missingInBank.push(...Array.from(bookMap.values()));
-
-      const reconciliationRate =
-        bank.length === 0
-          ? 0
-          : Number(((matched.length / bank.length) * 100).toFixed(2));
-
-      return {
-        summary: {
-          totalBankTransactions: bank.length,
-          totalBookTransactions: books.length,
-          matched: matched.length,
-          missingInBooks: missingInBooks.length,
-          missingInBank: missingInBank.length,
-          amountMismatch: amountMismatch.length,
-          reconciliationRate: reconciliationRate + "%",
-        },
-
-        matched,
-        missingInBooks,
-        missingInBank,
-        amountMismatch,
-      };
+  return {
+    summary: {
+      totalBankTransactions: bank.length,
+      totalBookTransactions: books.length,
+      matched: matched.length,
+      missingInBooks: missingInBooks.length,
+      missingInBank: missingInBank.length,
+      amountMismatch: amountMismatch.length,
+      reconciliationRate: reconciliationRate + "%",
     },
+
+    matched,
+    missingInBooks,
+    missingInBank,
+    amountMismatch,
+  };
+}
+    
+    
+    `,
   },
   {
     id: "fn_gst_reconciliation",
@@ -467,12 +569,11 @@ export const liblist = [
     useCases: [
       {
         title: "Website Project",
-        input: [
-          "Task,Hours,Rate",
-          "UI Design,10,20",
-          "Frontend,20,20",
-          "Backend,15,20",
-        ],
+        input: `Task,Hours,Rate 
+                UI Design,10,20, 
+                Frontend,20,20, 
+                Backend,15,20 `,
+
         output: {
           tasks: 3,
           totalHours: 45,
@@ -481,12 +582,11 @@ export const liblist = [
       },
       {
         title: "Mobile App MVP",
-        input: [
-          "Task,Hours,Rate",
-          "Authentication,12,25",
-          "Dashboard,18,25",
-          "API Integration,15,25",
-        ],
+        input: `Task,Hours,Rate
+          Authentication,12,25
+          Dashboard,18,25
+          API Integration,15,25`,
+
         output: {
           tasks: 3,
           totalHours: 45,
@@ -495,12 +595,11 @@ export const liblist = [
       },
       {
         title: "Consulting Work",
-        input: [
-          "Task,Hours,Rate",
-          "Research,8,30",
-          "Planning,6,30",
-          "Documentation,4,30",
-        ],
+        input: `Task,Hours,Rate,
+          Research,8,30
+          Planning,6,30
+          Documentation,4,30`,
+
         output: {
           tasks: 3,
           totalHours: 18,
@@ -508,9 +607,9 @@ export const liblist = [
         },
       },
     ],
-    functionArgs: ["csv", "riskPercent = 10", "profitPercent = 20"],
+    functionArgs: ["csv", "riskPercent", "profitPercent"],
     functionBody:
-      'const rows = csv.trim().split("\\\\n");\n      const headers = rows[0].split(",");\n      const data = rows.slice(1).map((row) => {\n        const values = row.split(",");\n        return headers.reduce((obj, h, i) => {\n          obj[h.trim()] = values[i]?.trim();\n          return obj;\n        }, {});\n      });\n      const totalHours = data.reduce(\n        (sum, row) => sum + Number(row.Hours || 0),\n        0\n      );\n      const baseCost = data.reduce(\n        (sum, row) => sum + Number(row.Hours || 0) * Number(row.Rate || 0),\n        0\n      );\n      const riskAmount = baseCost * riskPercent / 100;\n      const subtotal = baseCost + riskAmount;\n      const profitAmount = subtotal * profitPercent / 100;\n      return {\n        tasks: data.length,\n        totalHours,\n        baseCost,\n        riskAmount,\n        profitAmount,\n        finalQuotation: Math.round(subtotal + profitAmount)\n      };',
+      'const rows = csv.trim().split("\\n");\n      const headers = rows[0].split(",");\n      const data = rows.slice(1).map((row) => {\n        const values = row.split(",");\n        return headers.reduce((obj, h, i) => {\n          obj[h.trim()] = values[i]?.trim();\n          return obj;\n        }, {});\n      });\n      const totalHours = data.reduce(\n        (sum, row) => sum + Number(row.Hours || 0),\n        0\n      );\n      const baseCost = data.reduce(\n        (sum, row) => sum + Number(row.Hours || 0) * Number(row.Rate || 0),\n        0\n      );\n      const riskAmount = baseCost * riskPercent / 100;\n      const subtotal = baseCost + riskAmount;\n      const profitAmount = subtotal * profitPercent / 100;\n      return {\n        tasks: data.length,\n        totalHours,\n        baseCost,\n        riskAmount,\n        profitAmount,\n        finalQuotation: Math.round(subtotal + profitAmount)\n      };',
 
     code: function proposalPriceCalculator(
       csv: string,
@@ -1347,12 +1446,11 @@ export const liblist_pre1 = [
     useCases: [
       {
         title: "Website Project",
-        input: [
-          "Task,Hours,Rate",
-          "UI Design,10,20",
-          "Frontend,20,20",
-          "Backend,15,20",
-        ],
+        input: `Task,Hours,Rate \n,
+          UI Design,10,20 \n,
+          Frontend,20,20 \n,
+          Backend,15,20 `,
+
         output: {
           tasks: 3,
           totalHours: 45,

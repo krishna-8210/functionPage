@@ -11,7 +11,7 @@ import {
   //   Drawer,
   Modal,
 } from "@heroui/react";
-import { parseFn } from "@/libs";
+import { getFunctionParts, parseFn, splitFunction } from "@/libs";
 import { Editor } from "@monaco-editor/react";
 import confetti from "canvas-confetti";
 
@@ -119,7 +119,7 @@ const CreateComp = ({
       name,
       functionArgs: parsed.args,
       functionBody: parsed.body,
-      code,
+      code:`${code}`,
       createdAt: Date.now(),
       notes,
     };
@@ -165,7 +165,7 @@ const CreateComp = ({
       name,
       functionArgs: parsed.args,
       functionBody: parsed.body,
-      code,
+      code:`${code}`,
       createdAt: preItem.createdAt,
       updateAt: Date.now(),
       notes,
@@ -381,7 +381,8 @@ export default function FormPage({setPage,page}:{setPage:any,page:string}) {
 
     try {
       const argList = fn.functionArgs.join(", ");
-      const safeCode = `(function(${argList}) { ${fn.functionBody} })`;
+      const parseFnss=splitFunction(fn.code);
+      const safeCode = `(function(${argList}) { ${parseFnss.body} })`;
 
       const fnc = eval(safeCode);
 
