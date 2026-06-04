@@ -11,7 +11,7 @@ import {
   //   Drawer,
   Modal,
 } from "@heroui/react";
-import { getFunctionParts, parseFn, splitFunction } from "@/libs";
+import {  parseFn, splitFunction } from "@/libs";
 import { Editor } from "@monaco-editor/react";
 import confetti from "canvas-confetti";
 
