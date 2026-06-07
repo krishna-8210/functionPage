@@ -382,6 +382,7 @@ export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
   };
 
   const copySnippetCode = async (snippet: SnippetItem) => {
+    
     try {
       await navigator.clipboard.writeText(snippet.code);
       setCopiedSnippetId(snippet.id);
@@ -400,13 +401,13 @@ export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
     page={page}
     setPage={setPage}
       actions={[
-        <CreateSnippetGroup key="create-group" setSnippetList={setSnippetList} />,
+      
       ]}
     >
       <div className="flex flex-col gap-2 h-[100%]">
         <div className="flex gap-2 h-full">
-          <div className="flex gap-2 rounded-xl w-full">
-            <div className="border-r h-full p-2 w-48 shrink-0">
+          <div className="flex gap-2 rounded-xl w-full ">
+            <div className="border-r h-full p-2 w-48 shrink-0 ">
               {snippetList.length === 0 ? (
                 <div className="text-sm text-default-500 p-2">
                   No groups yet.
@@ -434,9 +435,9 @@ export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
                 ))
               )}
             </div>
-            <div className="w-full">
+            <div className="w-full ">
               {selectedGroup ? (
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 ">
                   <div className="flex justify-between items-center gap-2">
                     <div>
                       <div className="font-semibold">{selectedGroup.name}</div>
@@ -445,6 +446,7 @@ export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
                       </div>
                     </div>
                     <div className="flex gap-2">
+                         <CreateSnippetGroup key="create-group" setSnippetList={setSnippetList} />
                       <SnippetItemForm
                         groupIndex={selectedIndex as number}
                         setSnippetList={setSnippetList}
@@ -459,7 +461,7 @@ export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-3 overflow-y-scroll ">
                     {selectedGroup.snippet.length === 0 ? (
                       <Card variant="default" className="p-5 border">
                         <div className="text-default-500 text-sm">
@@ -467,7 +469,7 @@ export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
                         </div>
                       </Card>
                     ) : (
-                        <div className="w-full grid gap-2 grid-cols-4">
+                        <div className="w-full grid gap-2 grid-cols-3">
                             {
                       selectedGroup.snippet.map((item, snippetIndex) => (
                         <Card
@@ -503,7 +505,7 @@ export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
                                 value={item.code}
                                 readOnly
                                 variant="secondary"
-                                className={'h-32 border-none'}
+                                className={'h-16 border-none'}
                                 style={{outline:'none',border:'0px'}}
                                 />
                             
@@ -511,7 +513,8 @@ export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
                                 {item.notes || "No notes provided."}
                               </div>
                             </div>
-                            <div className="mt-3 flex justify-end gap-2 rounded-xl bg-default-50 p-2">
+                            <div className="mt  flex justify-end gap-2 rounded-xl bg-default-50 p-2">
+                              
                               <SnippetItemForm
                                 groupIndex={selectedIndex as number}
                                 snippetIndex={snippetIndex}
@@ -529,6 +532,7 @@ export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
                               >
                                 <FaTrash />
                               </Button>
+
                             </div>
                           </div>
                         </Card>
@@ -540,8 +544,16 @@ export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
                   </div>
                 </div>
               ) : (
-                <Card variant="default" className="p-5 border">
+                <div className="flex flex-col ">
+                  <div className="w-full flex justify-end">
+                    <CreateSnippetGroup key="create-group" setSnippetList={setSnippetList} />
+
+                  </div>
+          
+                <Card  variant="transparent" className="p-5 border mt-3">
+                 
                   <div className="flex flex-col gap-3">
+                    
                     <div>
                       <h3 className="font-medium">Select a snippet group</h3>
                       <p className="text-default-500 text-sm mt-1">
@@ -550,6 +562,7 @@ export default function SnippetPage({setPage,page}:{setPage:any,page:string}) {
                     </div>
                   </div>
                 </Card>
+                      </div>
               )}
             </div>
           </div>

@@ -1,10 +1,50 @@
-
-import FormPage from "./pages/formPage";
+import FormPage, { DetailsComp } from "./pages/formPage";
 import FunctionLib from "./pages/FunctionLib";
 import IntroPage from "./pages/IntroPage";
 import SnippetPage from "./pages/SnippetPage";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useOverlayState } from "@heroui/react";
+
+import { Button, Modal } from "@heroui/react";
+import CompilePage from "./pages/CompilePage";
+
+export function ModalOption() {
+ const [open,setOpen]=useState<boolean>(false)
+  return (
+    <Modal>
+      {/* <Button variant="secondary">Open Modal</Button> */}
+      <Modal.Backdrop isOpen={open}>
+        <Modal.Container>
+          <Modal.Dialog className="sm:max-w-[360px]">
+            <Modal.CloseTrigger />
+            <Modal.Header>
+              <Modal.Icon className="bg-default text-foreground"></Modal.Icon>
+              <Modal.Heading>Welcome to HeroUI</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body>
+              <p>
+                A beautiful, fast, and modern React UI library for building
+                accessible and customizable web applications with ease.
+              </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                onPress={() => {
+               setOpen(false)
+                }}
+                className="w-full"
+                slot="close"
+              >
+                Continue
+              </Button>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal>
+  );
+}
 
 function App() {
   const [selectedPage, setSelectedPage] = useState("home");
@@ -21,11 +61,23 @@ function App() {
  selectedPage={selectedPage}
  
     </Routes> */}
-      {selectedPage == "functionLib" && <FunctionLib setPage={setSelectedPage}  page={selectedPage}/>}
-      {selectedPage == "home" && <FormPage setPage={setSelectedPage}  page={selectedPage}/>}
-      {selectedPage == "snippet" && <SnippetPage setPage={setSelectedPage}  page={selectedPage}/>}
-      {selectedPage == "about" && <IntroPage setPage={setSelectedPage}  page={selectedPage}/>}
-
+      {selectedPage == "functionLib" && (
+        <FunctionLib setPage={setSelectedPage} page={selectedPage} />
+      )}
+      {selectedPage == "home" && (
+        <FormPage setPage={setSelectedPage} page={selectedPage} />
+      )}
+      {selectedPage == "snippet" && (
+        <SnippetPage setPage={setSelectedPage} page={selectedPage} />
+      )}
+      {selectedPage == "about" && (
+        <IntroPage setPage={setSelectedPage} page={selectedPage} />
+      )}
+      {selectedPage == "compiler" && (
+        <CompilePage setPage={setSelectedPage} page={selectedPage} />
+      )}
+      <ModalOption />
+    
     </>
 
     // <Routes>

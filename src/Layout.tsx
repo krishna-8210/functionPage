@@ -10,26 +10,28 @@ function Layout({children,actions=[],setPage,page}:{children:any,actions:any[],s
             <h2 onClick={()=>setPage('home')} className="text-blue-500 cursor-pointer font-bold">FunctionPage</h2>
             <div className='flex gap-2'>
                 <div>
-        
+              
                 </div>
-                {/* <Link to={'/'}> */}
-                <Button onPress={()=>setPage('functionLib')}  className='h-7' size='sm' variant={page=='functionLib'?'primary':'outline'}>Function Library</Button>
+              
                   <Button onPress={()=>setPage('home')} className='h-7' size='sm' variant={page=='home'?'primary':'outline'}>My Functions</Button>
                 {/* </Link> */}
                 {/* <Link to={'/snippet'}> */}
                 <Button onPress={()=>setPage('snippet')}  className='h-7' size='sm' variant={page=='snippet'?'primary':'outline'}>Snippets</Button>
                 {/* </Link> */}
-                {/* <Link to={'/about'}> */}
-                <Button onPress={()=>setPage('about')}  className='h-7' size='sm' variant={page=='about'?'primary':'outline'}>About</Button>
+                <Button onPress={()=>setPage('compiler')}  className='h-7' size='sm' variant={page=='compiler'?'primary':'outline'}>Compiler</Button>
+             
                 
                 {/* </Link> */}
                 
               
             </div>
           </div>
-          <div>
+          <div className='flex gap-2'>
             {actions.map((e:any)=>e)}
-
+               {/* <Link to={'/about'}> */}
+                <Button onPress={()=>setPage('about')}  className='h-7' size='sm' variant={page=='about'?'primary':'outline'}>About Us</Button>
+  {/* <Link to={'/'}> */}
+                <Button onPress={()=>setPage('functionLib')}  className='h-7' size='sm' variant={page=='functionLib'?'primary':'outline'}>Function Library</Button>
           </div>
         </div>
       </div>

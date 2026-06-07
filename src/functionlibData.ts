@@ -820,7 +820,7 @@ console.log(diffTime,totalDays)
   },
   {
     id: "fn_schema_to_dto",
-    code: (schemaCode: string) => {
+    code:(schemaCode) => {
       const classMatch = schemaCode.match(/export\s+class\s+(\w+)/);
 
       if (!classMatch) {

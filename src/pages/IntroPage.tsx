@@ -1,4 +1,5 @@
 import Layout from "@/Layout";
+import { DetailsComp } from "./formPage";
 
 const featureCards = [
   {
@@ -308,6 +309,7 @@ export default function IntroPage({setPage,page}:{setPage:any,page:string}) {
             </p>
           </section>
         </div>
+        <DetailsComp/>
       </div>
     </Layout>
   );
