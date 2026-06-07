@@ -820,71 +820,87 @@ console.log(diffTime,totalDays)
   },
   {
     id: "fn_schema_to_dto",
-    code:(schemaCode) => {
-      const classMatch = schemaCode.match(/export\s+class\s+(\w+)/);
+    code:`(schemaCode) => {
+  const classMatch = schemaCode.match(/export\s+class\s+(\w+)/);
 
-      if (!classMatch) {
-        throw new Error("Schema class not found");
-      }
+  if (!classMatch) {
+    throw new Error("Schema class not found");
+  }
 
-      const className = classMatch[1];
+  const className = classMatch[1];
 
-      const propertyRegex =
-        /@Prop\s*\(\s*([\s\S]*?)\s*\)\s*([\w]+)\s*:\s*([^;]+);/g;
+  const propertyRegex =
+    /@Prop\s*\(\s*([\s\S]*?)\s*\)\s*([\w]+)\s*:\s*([^;]+);/g;
 
-      const validators = new Set();
-      let dtoFields = "";
-      let match;
+  const validators = new Set();
+  const dtoFields = [];
+  let match;
 
-      while ((match = propertyRegex.exec(schemaCode)) !== null) {
-        const propOptions = match[1] || "";
-        const fieldName = match[2];
-        const fieldType = match[3].trim();
+  while ((match = propertyRegex.exec(schemaCode)) !== null) {
+    const propOptions = match[1] || "";
+    const fieldName = match[2];
+    const fieldType = match[3].trim();
 
-        const required = propOptions.includes("required: true");
+    const required = propOptions.includes("required: true");
 
-        let dtoType = "any";
-        let fieldValidators = [];
+    let dtoType = "any";
+    const fieldValidators = [];
 
-        if (
-          fieldType === "string" ||
-          fieldType === "String" ||
-          fieldType.includes("ObjectId")
-        ) {
-          dtoType = "string";
-          fieldValidators.push("@IsString()");
-          validators.add("IsString");
-        } else if (fieldType === "number" || fieldType === "Number") {
-          dtoType = "number";
-          fieldValidators.push("@IsNumber()");
-          validators.add("IsNumber");
-        } else if (fieldType === "boolean" || fieldType === "Boolean") {
-          dtoType = "boolean";
-          fieldValidators.push("@IsBoolean()");
-          validators.add("IsBoolean");
-        }
+    if (
+      fieldType === "string" ||
+      fieldType === "String" ||
+      fieldType.includes("ObjectId")
+    ) {
+      dtoType = "string";
+      fieldValidators.push("@IsString()");
+      validators.add("IsString");
+    } else if (
+      fieldType === "number" ||
+      fieldType === "Number"
+    ) {
+      dtoType = "number";
+      fieldValidators.push("@IsNumber()");
+      validators.add("IsNumber");
+    } else if (
+      fieldType === "boolean" ||
+      fieldType === "Boolean"
+    ) {
+      dtoType = "boolean";
+      fieldValidators.push("@IsBoolean()");
+      validators.add("IsBoolean");
+    }
 
-        if (!required) {
-          fieldValidators.unshift("@IsOptional()");
-          validators.add("IsOptional");
-        }
+    if (!required) {
+      fieldValidators.unshift("@IsOptional()");
+      validators.add("IsOptional");
+    }
 
-        dtoFields += `
-  @ApiPropertyOptional({
-    example: "${fieldName}"
-  })
-  ${fieldValidators.join("\n  ")}
-  ${fieldName}${required ? "" : "?"}: ${dtoType};
-`;
-      }
+    dtoFields.push(
+      "  @ApiPropertyOptional({\n" +
+      '    example: "' + fieldName + '"\n' +
+      "  })\n" +
+      fieldValidators.join("\n  ") +
+      "\n  " +
+      fieldName +
+      (required ? "" : "?") +
+      ": " +
+      dtoType +
+      ";\n"
+    );
+  }
 
-      return `import { ApiPropertyOptional } from "@nestjs/swagger";
-import { ${Array.from(validators).join(", ")} } from "class-validator";
-
-export class Create${className}Dto {
-${dtoFields}
-}`;
-    },
+  return (
+    'import { ApiPropertyOptional } from "@nestjs/swagger";\n' +
+    'import { ' +
+    Array.from(validators).join(", ") +
+    ' } from "class-validator";\n\n' +
+    "export class Create" +
+    className +
+    "Dto {\n" +
+    dtoFields.join("\n") +
+    "\n}"
+  );
+}`,
     tags: [
       "developer",
       "nestjs",

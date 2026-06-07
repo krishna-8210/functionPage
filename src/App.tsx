@@ -1,10 +1,10 @@
-import FormPage, { DetailsComp } from "./pages/formPage";
+import FormPage from "./pages/formPage";
 import FunctionLib from "./pages/FunctionLib";
 import IntroPage from "./pages/IntroPage";
 import SnippetPage from "./pages/SnippetPage";
 
-import { useEffect, useState } from "react";
-import { useOverlayState } from "@heroui/react";
+import {  useState } from "react";
+// import { useOverlayState } from "@heroui/react";
 
 import { Button, Modal } from "@heroui/react";
 import CompilePage from "./pages/CompilePage";

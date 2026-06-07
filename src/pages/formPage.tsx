@@ -22,7 +22,7 @@ import { motion } from "framer-motion";
 import Layout from "@/Layout";
 import SideNav from "@/component/SideNav";
 import { localStorageLib_for_function } from "@/localStoragelib";
-import { div } from "framer-motion/client";
+
 import ButtonGenerateWithAi from "@/component/ButtonGenerateWithAi";
 const handleClick = () => {
   confetti({
